@@ -1,42 +1,55 @@
-//Start Program
 let myLibrary= [];
-let book1 = new Book ('Book1Test', 'author: John Smith', 205, "I have not read");
+let newBook;
 
-
-function Book(title, author, pages, read) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read; 
+function Book(title, author, pages, bookRead) {
+    this.title = title.value;
+    this.author = author.value;
+    this.pages = pages.value;
+    this.bRead = bookRead.value; 
 };
-Book.prototype.info = function() {
-    alert(this.title+" by "+this.author+", "+this.pages+" pages, "+this.read)
-}
 
 function addBookToLibrary(){
-    Book();
+    console.log("addBookToLibrary function ran.");
+    bookFormBg.style.display = 'none';
+    let newBook = Book(title, author, pages, bookRead);
+    console.log(newBook);
+   /*  myLibrary.push(newBook);
+    saveArray();
+    bookForm.reset(); */
+}
+function saveArray(){
+    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
 }
 
-/* book1.info(); */
-
-
+function hideForm() {
+    bookFormBg.style.display = "none"
+}
 
 //Link to UI Elements
-const addBook = document.getElementById('addBook');
-const bookFormBg = document.getElementById('bookFormBG');
-const closeForm1 = document.getElementById('closeForm');
-//Event Listeners
-/* addBook.addEventListener('click', () => addBookToLibrary()) */
+const bookForm = document.getElementById('bookForm');
+const openForm = document.getElementById('openForm');
+const closeForm = document.getElementById('closeForm');
+const submitBook = document.getElementById('submitBook');
+const bookFormBg = document.getElementById('bookFormBg');
+const pages = document.getElementById('bookPages');
+const title = document.getElementById('bookTitle');
+const bookRead = document.getElementById('bookRead');
+const author = document.getElementById('bookAuthor');
 
-//Click Functions
-addBook.onclick = function() {
-    bookFormBg.style.display = "block";
-}
-closeForm1.onclick = function () {
-    bookFormBg.style.display = "none";
-}
-window.onclick = function(event) {
-    if (event.target == bookFormBg) {
-      bookFormBg.style.display = "none";
+//Event Listeners
+bookForm.addEventListener('submit', (e) =>{
+    e.preventDefault();   
+    addBookToLibrary();
+    
+})
+openForm.addEventListener('click',() => bookFormBg.style.display = "block")
+closeForm.addEventListener('click', () => {
+    bookForm.reset();
+    hideForm();
+})
+window.addEventListener("click", (e) => {
+    if(e.target == bookFormBg){
+        bookFormBg.style.display ='none';
+        bookForm.reset();
     }
-  }
+})
